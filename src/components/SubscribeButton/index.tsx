@@ -11,12 +11,16 @@ export function SubscribeButton({priceId}: SubscribeButtonProps){
     const [session] = useSession()
 
     async function handleSubscribe(){
+        console.log("entrou no handle subscribe")
         if(!session){
+            console.log("não tem sessão")
             signIn('github')
             return;
         }
         try{ 
+            console.log("dentro do try")
             const response = await api.post('/subscribe')
+            console.log("passou?")
 
             const { sessionId } = response.data
 

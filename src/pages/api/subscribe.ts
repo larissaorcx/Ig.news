@@ -14,12 +14,13 @@ type User = {
 }
 
 export default async function stripeConfig(req: NextApiRequest, res: NextApiResponse){
+    console.log('hi')
     if(req.method == 'POST'){
-        const session = await getSession({ req })
+        const session = await getSession({ req }) //metodo para retornar a sessão
         
         const user = await fauna.query<User>(
             q.Get(
-                q.Match(
+                q.Match( //procura os indices que correspondem 
                     q.Index('user_by_email'),
                     q.Casefold(session.user.email)
                 )
@@ -36,7 +37,7 @@ export default async function stripeConfig(req: NextApiRequest, res: NextApiResp
             });
             await fauna.query(
                 q.Update(
-                    q.Ref(q.Collection('users'), user.ref.id),
+                    q.Ref(q.Collection('users'), user.ref.id), // referencia do documento
                     { 
                         data:{
                             stripe_customer_id: stripeCustomer.id,
@@ -59,9 +60,10 @@ export default async function stripeConfig(req: NextApiRequest, res: NextApiResp
             success_url: process.env.STRIPE_SUCESS_URL, // redicionamento do usuário em caso de sucesso
             cancel_url: process.env.STRIPE_CANCEL_URL, //redicionamento do usuário ao cancelar a requisição
         })
-    return res.status(200).json({sessionId: stripeCheckoutSession.id})
-    }else{
+
+        return res.status(200).json({sessionId: stripeCheckoutSession.id})
+    } else{
         res.setHeader('Allow', 'POST') //metodo que a rota aceita será POST
-        res.status(400).end('Method not allowed')
+        res.status(405).end('Method not allowed')
     }
 }
