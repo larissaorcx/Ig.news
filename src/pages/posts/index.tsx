@@ -1,8 +1,22 @@
-import Head from 'next/head'
-import styles from './styles.module.scss'
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
+import { getPrismicClient } from '../../services/prismic';
+import Prismic from '@prismicio/client';
 
+import {RichText} from 'prismic-dom'
+import styles from './styles.module.scss';
 
-export default function Posts(){
+type Posts = {
+    slug: string,
+    title: string,
+    excerpt: string,
+    updateAt:string,
+}
+interface PostsProps{
+    posts: Posts[]
+}
+
+export default function Posts({posts}: PostsProps){
     return(
         <>
         <Head>
@@ -10,29 +24,46 @@ export default function Posts(){
         </Head>
         <main className={styles.container}>
             <div className={styles.posts}>
-                <a href="#">
-                    <time>12 de Março 2021</time>
-                    <strong>
-                        Oi
-                    </strong>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente corrupti ab veritatis nisi neque. Ut, doloremque! Exercitationem, culpa odio. Commodi quidem quibusdam labore mollitia id nobis! Voluptatem, numquam? Quos, ex?</p>
-                </a>
-                <a href="#">
-                    <time>12 de Março 2021</time>
-                    <strong>
-                        Oi
-                    </strong>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente corrupti ab veritatis nisi neque. Ut, doloremque! Exercitationem, culpa odio. Commodi quidem quibusdam labore mollitia id nobis! Voluptatem, numquam? Quos, ex?</p>
-                </a>
-                <a href="#">
-                    <time>12 de Março 2021</time>
-                    <strong>
-                        Oi
-                    </strong>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente corrupti ab veritatis nisi neque. Ut, doloremque! Exercitationem, culpa odio. Commodi quidem quibusdam labore mollitia id nobis! Voluptatem, numquam? Quos, ex?</p>
-                </a>
+                {posts.map(post => (
+                    <a key={post.slug}href="#">
+                        <time>{post.updateAt}</time>
+                        <strong>{post.title}</strong>
+                        <p>{post.excerpt}</p>
+                    </a>
+                ))}
             </div>
         </main>
         </>
     );
+}
+
+export const getStaticProps: GetStaticProps  =  async () =>{
+    const prismic = getPrismicClient()
+
+    const response = await prismic.query([
+        Prismic.predicates.at('document.type', 'publication') //busca os documentos no Prismic que são do tipo publication
+    ],{
+        fetch: ['publication.title', 'publication.content'],
+        pageSize: 100,
+    })
+
+    console.log(JSON.stringify(response, null, 2)) //------- console para ver toda a estrutura da resposta.
+
+    const posts = response.results.map(post => {
+        return{
+            slug: post.uid,
+            title: RichText.asText(post.data.title),
+            excerpt: post.data.content.find(content => content.type == 'paragraph')?.text ?? '', //se encontrar o paragrafo ele retorna o texte, se não retorna a string vazia.
+            updateAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
+                day:'2-digit',
+                month: 'long',
+                year: 'numeric',
+            })
+        }
+    })
+    return{ 
+        props: {
+            posts
+        }
+    }
 }
