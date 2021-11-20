@@ -1,9 +1,7 @@
 import { SingInButtom } from '../SignInButtom'
 import {ActiveLink} from '../ActiveLink'
 
-import Link from 'next/link'
 import Img from 'next/image'
-
 
 import styles from './styles.module.scss'
 
