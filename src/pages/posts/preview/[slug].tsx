@@ -70,6 +70,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
    
     const {slug} = params; //acesso ao slug desejado pelo params
 
+    console.log(params)
+
     const prismic = getPrismicClient()
     const response = await prismic.getByUID('publication', String(slug), {}) 
 
