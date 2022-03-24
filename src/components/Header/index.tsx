@@ -1,4 +1,4 @@
-import { SingInButtom } from '../SignInButtom'
+import { SingInButton } from '../SignInButton'
 import {ActiveLink} from '../ActiveLink'
 
 import Img from 'next/image'
@@ -23,7 +23,7 @@ export function Header(){
                     
                 </nav>
 
-                <SingInButtom />
+                <SingInButton />
             </div>
          
         </header>

@@ -5,7 +5,7 @@ import { signIn, signOut, useSession } from 'next-auth/client'
 import { FaGithub } from 'react-icons/fa'
 import { FiX } from 'react-icons/fi'
 
-export function SingInButtom(){
+export function SingInButton(){
     const [session] = useSession();
 
     return(
