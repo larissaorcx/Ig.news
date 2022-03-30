@@ -20,10 +20,10 @@ describe('Home page', () => {
     expect(screen.getByText('for R$10,00 month')).toBeInTheDocument()
   })
   
-  it('loads initial data', async () => {
+  it('loads initial data', async () => { //página carregando os dados inicias
     const retrieveStripePricesMocked = jest.mocked(stripe.prices.retrieve)
 
-    retrieveStripePricesMocked.mockResolvedValueOnce({
+    retrieveStripePricesMocked.mockResolvedValueOnce({ //promise
       id: 'fake-price-id',
       unit_amount: 1000,
     } as any)
