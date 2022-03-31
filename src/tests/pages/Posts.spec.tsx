@@ -7,7 +7,7 @@ const posts = [{
     slug: 'my-new-post',
     title: 'My New Post',
     excerpt: 'post excerpt',
-    updateAt: '01 de abril',
+    updatedAt: '01 de abril',
 }]
 
 jest.mock('../../services/prismic')
@@ -53,7 +53,7 @@ describe('Posts page', () => {
             slug: 'my-new-post',
             title: 'My New Post',
             excerpt: 'post excerpt',
-            updateAt: '01 de abril de 2021',
+            updatedAt: '01 de abril de 2021',
             }]
         }
       }) 

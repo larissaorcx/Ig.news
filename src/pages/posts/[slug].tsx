@@ -14,7 +14,7 @@ interface PostsProps{
         title: string,
         content: string,
         excerpt: string,
-        updateAt:string,
+        updatedAt:string,
     }
 }
 
@@ -68,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
         slug,
         title: RichText.asText(response.data.title),
         content: RichText.asHtml(response.data.content),
-        updateAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
+        updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
             day:'2-digit',
             month: 'long',
             year: 'numeric',
