@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
     if (!response) {
         return {
           redirect: {
-            destination: '/posts',
+            destination: '/',
             permanent: false
           }
         }
