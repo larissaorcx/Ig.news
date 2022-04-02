@@ -3,6 +3,7 @@ import { signIn, useSession } from 'next-auth/client'
 import { useRouter } from 'next/router';
 import { stripe } from '../../services/stripe'
 
+
 import Home, { getStaticProps } from '../../pages'
 
 jest.mock('next/router')

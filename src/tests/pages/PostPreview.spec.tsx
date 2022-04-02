@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
-import { mocked } from 'ts-jest/utils'
+import {mocked} from 'jest-mock'
 
 import Post, { getStaticProps, getStaticPaths } from '../../pages/posts/preview/[slug]'
 import { getPrismicClient } from '../../services/prismic'
@@ -10,7 +10,6 @@ const post = {
   slug: 'my-new-post', 
   title: 'My New Post', 
   content: '<p>Post excerpt</p>', 
-  excerpt: 'post excerpt',
   updatedAt: '10 de Abril'
 }
 
@@ -20,13 +19,13 @@ jest.mock('../../services/prismic')
 
 describe('PostPreview page', () => {
   it('renders correctly', () => {
-    const useSessionMocked = mocked(useSession)
+    const useSessionMocked = jest.mocked(useSession)
 
     useSessionMocked.mockReturnValueOnce([null, false])
 
     render(<Post post={post} />)
 
-    expect(screen.getByText('My New Post')).toBeInTheDocument()
+    expect(screen.getByText('My New Post | Ignews')).toBeInTheDocument()
     expect(screen.getByText('Post excerpt')).toBeInTheDocument()
     expect(screen.getByText('Wanna continue reading?')).toBeInTheDocument()
   })
@@ -85,7 +84,7 @@ describe('PostPreview page', () => {
 
     const response = await getStaticProps({
       params: {
-        slug:'my-new-post'
+        slug: 'my-new-post'
       }
     })
 
