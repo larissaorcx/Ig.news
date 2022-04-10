@@ -13,6 +13,14 @@ type Posts = {
     excerpt: string,
     updatedAt:string,
 }
+type Data = {
+    title: string,
+    content: {
+        type: string,
+        text: string,
+    }[],
+
+}
 interface PostsProps{
     posts: Posts[]
 }
@@ -43,7 +51,7 @@ export default function Posts({posts}: PostsProps){
 export const getStaticProps: GetStaticProps  =  async () =>{
     const prismic = getPrismicClient()
 
-    const response = await prismic.query([
+    const response = await prismic.query<Data>([
         Prismic.predicates.at('document.type', 'publication') //busca os documentos no Prismic que são do tipo publication
     ],{
         fetch: ['publication.title', 'publication.content'],
