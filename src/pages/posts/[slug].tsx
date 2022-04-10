@@ -28,7 +28,7 @@ export default function Post({post}: PostsProps){
             <main>
                 <article className={styles.post}>
                     <h1>{post.title}</h1>
-                    <time>{post.updateAt}</time>
+                    <time>{post.updatedAt}</time>
 
                     <div className={styles.postContent} dangerouslySetInnerHTML={{__html: post.content}}/> 
                 </article>

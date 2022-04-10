@@ -8,7 +8,8 @@ import { getPrismicClient } from '../../services/prismic'
 const post = { 
   slug: 'my-new-post', 
   title: 'My New Post', 
-  content: '<p>Post excerpt</p>', 
+  content: '<p>Post excerpt</p>',
+  excerpt: 'excerpt',  
   updatedAt: '10 de Abril'
 }
 
@@ -53,7 +54,7 @@ describe('Post page', () => {
     expect(response).toEqual(
       expect.objectContaining({
         redirect: expect.objectContaining({
-          destination: '/',
+          destination: '/post',
         })
       })
     )
