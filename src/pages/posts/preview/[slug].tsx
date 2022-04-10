@@ -18,6 +18,12 @@ interface PostPreviewProps {
     updatedAt: string;
   }
 }
+interface DataProps{
+    
+  title: string,
+  content: string[],
+  last_publication_date: string,  
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
@@ -51,7 +57,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID('post', String(slug), {})
+  const response = await prismic.getByUID<DataProps>('post', String(slug), {})
 
   const post = {
     slug,
