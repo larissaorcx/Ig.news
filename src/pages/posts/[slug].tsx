@@ -21,8 +21,7 @@ interface DataProps{
     
     title: string,
     content: string,
-    last_publication_date: string,
-    
+    last_publication_date: string,  
 }
 
 export default function Post({post}: PostsProps){
